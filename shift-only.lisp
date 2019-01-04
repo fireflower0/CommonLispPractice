@@ -1,0 +1,22 @@
+(defun shift-only (n a)
+  (let ((res 0)
+        (exist-odd nil))
+    (loop
+       (dotimes (i n)
+         (if (not (zerop (rem (aref a i) 2)))
+             (setf exist-odd t)))
+       (if (eq exist-odd t) (return))
+       (dotimes (i n)
+         (setf (aref a i) (/ (aref a i) 2)))
+       (incf res))
+    res))
+
+(defun create-data ()
+  (let* ((n (read))
+         (a (make-array `(,n))))
+    (dotimes (i n)
+      (setf (aref a i) (read)))
+    (values n a)))
+
+(multiple-value-bind (n a) (create-data)
+  (format t "~A~%" (shift-only n a)))

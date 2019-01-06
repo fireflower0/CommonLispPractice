@@ -1,0 +1,22 @@
+(defmacro while (test &body body)
+  `(do ()
+       ((not ,test))
+     ,@body))
+
+(defun find-sum-of-digits (n)
+  (let ((sum 0))
+    (while (> n 0)
+      (setf sum (+ sum (rem n 10)))
+      (setf n (floor n 10)))
+    sum))
+
+(defun some-sums (n a b)
+  (let ((total 0)
+        (sum 0))
+    (dotimes (i (+ n 1))
+      (setf sum (find-sum-of-digits i))
+      (if (and (>= sum a) (<= sum b))
+          (setf total (+ total i))))
+    total))
+
+(format t "~A~%" (some-sums (read) (read) (read)))
